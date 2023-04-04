@@ -63,38 +63,37 @@ export default Vue.extend({
       const today = new Date(utc + kstGap) // 한국 시간으로 date 객체 만들기(오늘)
       console.log(today)
 
-      const currentYear = today.getFullYear()
-      const currentMonth = today.getMonth() + 1
-      const currentDate = today.getDate()
-      const currentDay = today.getDay()
-      console.log(`${currentYear} ${currentMonth} ${currentDate} ${currentDay}`)
-
       // 이전 달의 마지막 날 날짜와 요일 구하기
-      const startDay = new Date(currentYear, currentMonth - 1, 0)
-      console.log(startDay)
+      const startDay = new Date(this.currentYear, this.currentMonth - 1, 0)
 
       const prevDate = startDay.getDate()
       const prevDay = startDay.getDay()
-      console.log(prevDate)
-
-      console.log(prevDay)
 
       // 이번 달의 마지막날 날짜와 요일 구하기
-      const endDay = new Date(currentYear, currentMonth, 0)
+      const endDay = new Date(this.currentYear, this.currentMonth, 0)
       const nextDate = endDay.getDate()
-      console.log('nextDate', nextDate)
-
       const nextDay = endDay.getDay()
 
-      const calendar = this.$refs.calendar
-      for (let i = prevDate - prevDay; i <= prevDate; i++) {
-        this.dates.push(i)
+      for (
+        let prevMonthDate = prevDate - prevDay;
+        prevMonthDate <= prevDate;
+        prevMonthDate++
+      ) {
+        this.dates.push(prevMonthDate)
       }
-      for (let i = 1; i <= nextDate; i++) {
-        this.dates.push(i)
+      for (
+        let currentMonthDate = 1;
+        currentMonthDate <= nextDate;
+        currentMonthDate++
+      ) {
+        this.dates.push(currentMonthDate)
       }
-      for (let i = 0; i <= (6 - nextDay === 6 ? 6 : 6 - nextDay); i++) {
-        this.dates.push(i + 1)
+      for (
+        let nextMonthDate = 0;
+        nextMonthDate <= (6 - nextDay === 6 ? 6 : 6 - nextDay);
+        nextMonthDate++
+      ) {
+        this.dates.push(nextMonthDate + 1)
       }
       for (let index = 0; index < Math.floor(this.dates.length / 7); index++) {
         const week = []
@@ -103,8 +102,6 @@ export default Vue.extend({
         }
         this.weeks.push(week)
       }
-
-      console.log(this.weeks)
     },
     prevMonth() {
       this.currentMonth = this.currentMonth - 1
@@ -121,7 +118,7 @@ export default Vue.extend({
 <style scoped>
 .calendar {
   height: 700px;
-  width: 700px;
+  width: 750px;
   background-color: #32423453;
 }
 .date {
